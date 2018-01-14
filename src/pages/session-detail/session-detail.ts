@@ -19,16 +19,16 @@ export class SessionDetailPage {
   saveFilter() {
     this.dataProvider.saveFilter(this.session).then((result) => {
       console.log(result);
-      this.showToast('bottom', 'success');
+      this.showToast('bottom', 'success','保存成功!');
     }, (err) => {
       console.log(err);
-      this.showToast('bottom', 'error');
+      this.showToast('bottom', 'error', '保存失败');
     });
   }
 
-  showToast(position: string, type:string) {
+  showToast(position: string, type:string, msg:string) {
     let toast = this.toastCtrl.create({
-      message: 'Mmmm, buttered toast',
+      message:  msg,
       duration: 2000,
       position: position,
       cssClass: 'toast-'+type

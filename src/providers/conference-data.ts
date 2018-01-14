@@ -115,8 +115,9 @@ export class ConferenceData {
   }
 
   saveFilter(data) {
+    console.log(data);
     return new Promise((resolve, reject) => {
-      this.http.post(this.apiUrl + '/filters', JSON.stringify(data))
+      this.http.put(this.apiUrl + '/filters/' + data.id, data)
         .subscribe(res => {
           resolve(res);
         }, (err) => {
