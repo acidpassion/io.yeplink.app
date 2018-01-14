@@ -31,7 +31,7 @@ export class SchedulePage {
   segment = 'all';
   excludeTracks: any = [];
   shownSessions: any = [];
-  groups: any = [];
+  filters: any = [];
   confDate: string;
 
   constructor(
@@ -53,10 +53,9 @@ export class SchedulePage {
   updateSchedule() {
     // Close any open sliding items when the schedule updates
     this.scheduleList && this.scheduleList.closeSlidingItems();
-
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
+      this.filters = data;
     });
   }
 
@@ -77,18 +76,18 @@ export class SchedulePage {
     // go to the session detail page
     // and pass in the session data
 
-    this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, name: sessionData.name });
+    this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, description: sessionData.description });
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData: any) {
 
-    if (this.user.hasFavorite(sessionData.name)) {
+    if (this.user.hasFavorite(sessionData.description)) {
       // woops, they already favorited it! What shall we do!?
       // prompt them to remove it
       this.removeFavorite(slidingItem, sessionData, 'Favorite already added');
     } else {
       // remember this session as a user favorite
-      this.user.addFavorite(sessionData.name);
+      this.user.addFavorite(sessionData.description);
 
       // create an alert instance
       let alert = this.alertCtrl.create({
@@ -124,7 +123,7 @@ export class SchedulePage {
           text: 'Remove',
           handler: () => {
             // they want to remove this session from their favorites
-            this.user.removeFavorite(sessionData.name);
+            this.user.removeFavorite(sessionData.description);
             this.updateSchedule();
 
             // close the sliding item and hide the option buttons
@@ -149,10 +148,9 @@ export class SchedulePage {
   }
 
   doRefresh(refresher: Refresher) {
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-
+      this.filters = data;
       // simulate a network request that would take longer
       // than just pulling from out local json file
       setTimeout(() => {

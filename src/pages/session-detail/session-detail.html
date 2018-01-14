@@ -1,19 +1,122 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="session">{{session.name}}</ion-title>
+    <ion-title *ngIf="session">{{session.description}}</ion-title>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="defaultTab">
+        <ion-segment-button value="startPanko">
+          初 盘
+        </ion-segment-button>
+        <ion-segment-button value="nowPanko">
+          即时盘
+        </ion-segment-button>
+        <ion-segment-button value="endPanko">
+          终 盘
+        </ion-segment-button>
+        <ion-segment-button value="euroAsiaPanko">
+          欧亚转换 
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="session">
-    <h1>{{session.name}}</h1>
-    <h4 *ngFor="let speaker of session?.speakers">
-    {{speaker.name}}
-  </h4>
-    <p>
-      {{session.timeStart}} - {{session.timeEnd}}
-    </p>
-    <p>{{session.location}}</p>
-    <p>{{session.description}}</p>
-  </div>
+    <div *ngIf="session">
+      <form (ngSubmit)="saveFilter()">
+          <div [ngSwitch]="defaultTab">
+              <ion-list *ngSwitchCase="'startPanko'">
+                  <ion-item>
+                      <ion-label>主最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.startHostFrom" name="startHostFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>主最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.startHostTo" name="startHostTo" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>盘口</ion-label>
+                      <ion-input type="text" placeholder="" [(ngModel)]="session.startPanko" name="startPanko" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestFrom" name="startGuestFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestTo" name="startGuestFrom" required="" ></ion-input>
+                    </ion-item>
+              </ion-list>
+          
+              <ion-list *ngSwitchCase="'endPanko'">
+                  <ion-item>
+                      <ion-label>主最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.endHostFrom" name="endHostFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>主最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.endHostTo" name="endHostTo" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>盘口</ion-label>
+                      <ion-input type="text" placeholder="" [(ngModel)]="session.endPanko" name="endPanko" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.endGuestFrom" name="endGuestFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.endGuestTo" name="endGuestFrom" required="" ></ion-input>
+                    </ion-item>
+              </ion-list>
+          
+              <ion-list *ngSwitchCase="'nowPanko'">
+                  <ion-item>
+                      <ion-label>主最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.nowHostFrom" name="nowHostFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>主最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.nowHostTo" name="nowHostTo" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>盘口</ion-label>
+                      <ion-input type="text" placeholder="" [(ngModel)]="session.nowPanko" name="nowPanko" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.nowGuestFrom" name="nowGuestFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.nowGuestTo" name="nowGuestFrom" required="" ></ion-input>
+                    </ion-item>
+              </ion-list>
+              <ion-list *ngSwitchCase="'euroAsiaPanko'">
+                  <ion-item>
+                      <ion-label>主最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.euroAsiaHostFrom" name="euroAsiaHostFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>主最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.euroAsiaHostTo" name="euroAsiaHostTo" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>盘口</ion-label>
+                      <ion-input type="text" placeholder="" [(ngModel)]="session.euroAsiaPanko" name="euroAsiaPanko" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最小</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.euroAsiaGuestFrom" name="euroAsiaGuestFrom" required="" ></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>客最大</ion-label>
+                      <ion-input type="number" placeholder="" [(ngModel)]="session.euroAsiaGuestTo" name="euroAsiaGuestFrom" required="" ></ion-input>
+                    </ion-item>
+              </ion-list>
+            </div>
+          <ion-input type="hidden" [(ngModel)]="session.id" name="id"></ion-input>
+          <button ion-button type="submit" block>提 交</button>
+        </form>
+    </div>
 </ion-content>
