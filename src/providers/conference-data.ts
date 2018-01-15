@@ -93,7 +93,7 @@ export class ConferenceData {
   }
 
   getSpeakers() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.speakers.sort((a: any, b: any) => {
         let aName = a.name.split(' ').pop();
         let bName = b.name.split(' ').pop();
@@ -103,13 +103,13 @@ export class ConferenceData {
   }
 
   getTracks() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.tracks.sort();
     });
   }
 
   getMap() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.map;
     });
   }

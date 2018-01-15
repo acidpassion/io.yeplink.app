@@ -13,7 +13,7 @@ import { UserData } from '../../providers/user-data';
 import {Filter} from '../../providers/filter';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
+// import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 
 
 @Component({
