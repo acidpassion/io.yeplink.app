@@ -16,8 +16,8 @@ export class ConferenceData {
 
   constructor(public http: Http, public user: UserData) { }
 
-  load(): any {
-    if (this.data) {
+  load(refresh: boolean): any {
+    if (this.data&&!refresh) {
       return Observable.of(this.data);
     } else {
       return this.http.get(this.apiUrl + '/filters')
@@ -32,8 +32,8 @@ export class ConferenceData {
     return this.data;
   }
 
-  getTimeline(queryText = '', excludeTracks: any[] = [], segment = 'all') {
-    return this.load().map((data: any) => {
+  getTimeline(queryText = '', excludeTracks: any[] = [], segment = 'all', refresh = false) {
+    return this.load(refresh).map((data: any) => {
       let day = data;
       console.log(data);
       day.shownSessions = 0;

@@ -38,7 +38,7 @@ export class SessionDetailPage {
   }
 
   ionViewWillEnter() {
-    this.dataProvider.load().subscribe((data: any) => {
+    this.dataProvider.load(false).subscribe((data: any) => {
       console.log(data);
       if (
         data

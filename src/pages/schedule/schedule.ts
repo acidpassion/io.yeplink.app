@@ -10,6 +10,7 @@ import { AlertController, App, FabContainer, ItemSliding, List, ModalController,
 
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import {Filter} from '../../providers/filter';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
@@ -59,17 +60,8 @@ export class SchedulePage {
     });
   }
 
-  presentFilter() {
-    let modal = this.modalCtrl.create(ScheduleFilterPage, this.excludeTracks);
-    modal.present();
-
-    modal.onWillDismiss((data: any[]) => {
-      if (data) {
-        this.excludeTracks = data;
-        this.updateSchedule();
-      }
-    });
-
+  addFilter() {
+    this.goToSessionDetail(new Filter('','', 0,0,0,0,'',0,0,0,0,'',0,0,0,0,'',0,0,0,0,''));
   }
 
   goToSessionDetail(sessionData: any) {
@@ -148,7 +140,7 @@ export class SchedulePage {
   }
 
   doRefresh(refresher: Refresher) {
-    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment, true).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
       this.filters = data;
       // simulate a network request that would take longer
