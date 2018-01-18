@@ -1,6 +1,6 @@
 export class Filter {
     constructor(
-        public _id:String,
+        public id:String,
         public description: String,
         public euroAsiaGuestTo:number,
         public euroAsiaGuestFrom:number,

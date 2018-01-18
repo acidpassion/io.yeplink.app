@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { Http } from '@angular/http';
-
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { UserData } from './user-data';
-
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -13,8 +12,13 @@ import 'rxjs/add/observable/of';
 export class ConferenceData {
   data: any;
   apiUrl = 'http://47.52.202.11:8000/api';
-
-  constructor(public http: Http, public user: UserData) { }
+  // apiUrl = 'http://localhost:5000/api';
+  headers: Headers;
+  options: RequestOptions;
+  constructor(public http: Http, public user: UserData) {
+    this.headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'q=0.8;application/json;q=0.9' });
+    this.options = new RequestOptions({ headers: this.headers });
+   }
 
   load(refresh: boolean): any {
     if (this.data&&!refresh) {
@@ -25,6 +29,17 @@ export class ConferenceData {
     }
   }
 
+  deleteSession(data: any): any{
+    return this.http.delete(this.apiUrl + '/filters/' + data.id, this.options)
+    .map(this.processData, this);
+  }
+
+  handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
   processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
@@ -116,14 +131,26 @@ export class ConferenceData {
 
   saveFilter(data) {
     console.log(data);
-    return new Promise((resolve, reject) => {
-      this.http.put(this.apiUrl + '/filters/' + data.id, data)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
+    if(data.id==''){
+      return new Promise((resolve, reject) => {
+        this.http.post(this.apiUrl + '/filters/', data)
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+      });
+    }
+    else{
+      return new Promise((resolve, reject) => {
+        this.http.put(this.apiUrl + '/filters/' + data.id, data)
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+      });
+    }
   }
 
 }

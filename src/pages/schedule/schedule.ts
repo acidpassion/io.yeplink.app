@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-
-import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular'
+import { Platform, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 /*
   To learn how to use third party libs in an
@@ -44,6 +44,8 @@ export class SchedulePage {
     public toastCtrl: ToastController,
     public confData: ConferenceData,
     public user: UserData,
+    public platform: Platform,
+    public actionSheetCtrl: ActionSheetController
   ) {}
 
   ionViewDidLoad() {
@@ -69,6 +71,10 @@ export class SchedulePage {
     // and pass in the session data
 
     this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, description: sessionData.description });
+  }
+
+  deleteSession(sessionData: any){
+    this.presentActionSheet(sessionData);
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData: any) {
@@ -155,5 +161,32 @@ export class SchedulePage {
         toast.present();
       }, 1000);
     });
+  }
+  presentActionSheet(session: any) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: '过滤条件',
+      buttons: [
+        {
+          text: '确定删除？',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            this.confData.deleteSession(session);
+            this.updateSchedule();
+            console.log('Delete clicked');
+          }
+        },
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            this.updateSchedule();
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+ 
+    actionSheet.present();
   }
 }

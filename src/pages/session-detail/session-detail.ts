@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { ConferenceData } from '../../providers/conference-data';
+import {Filter} from '../../providers/filter';
 
 @Component({
   selector: 'page-session-detail',
@@ -48,6 +49,11 @@ export class SessionDetailPage {
             this.session = session;
             this.defaultTab = 'startPanko';
             break;
+          }
+          else
+          {
+            this.session = new Filter('','', 0,0,0,0,'',0,0,0,0,'',0,0,0,0,'',0,0,0,0,'');
+            this.defaultTab = 'startPanko';
           }
         }
       }
