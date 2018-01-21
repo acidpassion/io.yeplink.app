@@ -34,6 +34,7 @@ export class SchedulePage {
   shownSessions: any = [];
   filters: any = [];
   confDate: string;
+  statusCode: number;
 
   constructor(
     public alertCtrl: AlertController,
@@ -50,13 +51,13 @@ export class SchedulePage {
 
   ionViewDidLoad() {
     this.app.setTitle('Schedule');
-    this.updateSchedule();
+    this.updateSchedule(true);
   }
 
-  updateSchedule() {
+  updateSchedule(refresh: boolean) {
     // Close any open sliding items when the schedule updates
     this.scheduleList && this.scheduleList.closeSlidingItems();
-    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment, refresh).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
       this.filters = data;
     });
@@ -122,8 +123,7 @@ export class SchedulePage {
           handler: () => {
             // they want to remove this session from their favorites
             this.user.removeFavorite(sessionData.description);
-            this.updateSchedule();
-
+            this.updateSchedule(true);
             // close the sliding item and hide the option buttons
             slidingItem.close();
           }
@@ -153,7 +153,6 @@ export class SchedulePage {
       // than just pulling from out local json file
       setTimeout(() => {
         refresher.complete();
-
         const toast = this.toastCtrl.create({
           message: 'Sessions have been updated.',
           duration: 3000
@@ -171,16 +170,18 @@ export class SchedulePage {
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
-            this.confData.deleteSession(session);
-            this.updateSchedule();
-            console.log('Delete clicked');
+            this.confData.deleteSession(session.id).subscribe(successCode => {
+                this.statusCode = successCode;
+                this.updateSchedule(true);
+            },
+            errorCode => this.statusCode = errorCode);  
           }
         },
         {
           text: '取消',
           role: 'cancel',
           handler: () => {
-            this.updateSchedule();
+            this.updateSchedule(false);
             console.log('Cancel clicked');
           }
         }

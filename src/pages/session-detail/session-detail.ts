@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { NavParams, NavController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { ConferenceData } from '../../providers/conference-data';
 import {Filter} from '../../providers/filter';
+import { SchedulePage } from '../schedule/schedule';
 
 @Component({
   selector: 'page-session-detail',
@@ -14,13 +15,15 @@ export class SessionDetailPage {
   constructor(
     public dataProvider: ConferenceData,
     public navParams: NavParams,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public navCtrl: NavController
   ) {}
 
   saveFilter() {
     this.dataProvider.saveFilter(this.session).then((result) => {
       console.log(result);
       this.showToast('bottom', 'success','保存成功!');
+      this.navCtrl.push(SchedulePage);
     }, (err) => {
       console.log(err);
       this.showToast('bottom', 'error', '保存失败');

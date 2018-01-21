@@ -11,8 +11,8 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class ConferenceData {
   data: any;
-  apiUrl = 'http://47.52.202.11:8000/api';
-  // apiUrl = 'http://localhost:5000/api';
+  // apiUrl = 'http://112.74.57.41:8000/api';
+  apiUrl = 'http://localhost:5000/api';
   headers: Headers;
   options: RequestOptions;
   constructor(public http: Http, public user: UserData) {
@@ -29,9 +29,12 @@ export class ConferenceData {
     }
   }
 
-  deleteSession(data: any): any{
-    return this.http.delete(this.apiUrl + '/filters/' + data.id, this.options)
-    .map(this.processData, this);
+  deleteSession(sessionId: string): any{
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    return this.http.delete(this.apiUrl +"/filters/" + sessionId, options)
+      .map(success => success.status)
+      .catch(this.handleError);
   }
 
   handleError(error: any) {
