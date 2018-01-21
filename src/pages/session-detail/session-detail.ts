@@ -53,11 +53,11 @@ export class SessionDetailPage {
             this.defaultTab = 'startPanko';
             break;
           }
-          else
-          {
-            this.session = new Filter('','', 0,0,0,0,'',0,0,0,0,'',0,0,0,0,'',0,0,0,0,'');
-            this.defaultTab = 'startPanko';
-          }
+        }
+        if(this.session == undefined)
+        {
+          this.session = new Filter('','', 0,0,0,0,'',0,0,0,0,'',0,0,0,0,'',0,0,0,0,'');
+          this.defaultTab = 'startPanko';
         }
       }
     });

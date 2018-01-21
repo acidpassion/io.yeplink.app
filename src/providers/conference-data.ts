@@ -11,8 +11,8 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class ConferenceData {
   data: any;
-  // apiUrl = 'http://112.74.57.41:8000/api';
-  apiUrl = 'http://localhost:5000/api';
+  apiUrl = 'http://112.74.57.41:8000/api';
+  // apiUrl = 'http://localhost:5000/api';
   headers: Headers;
   options: RequestOptions;
   constructor(public http: Http, public user: UserData) {
