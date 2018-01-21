@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-
-import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular'
+import { Platform, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 /*
   To learn how to use third party libs in an
@@ -10,9 +10,10 @@ import { AlertController, App, FabContainer, ItemSliding, List, ModalController,
 
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import {Filter} from '../../providers/filter';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
+// import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class SchedulePage {
   shownSessions: any = [];
   filters: any = [];
   confDate: string;
+  statusCode: number;
 
   constructor(
     public alertCtrl: AlertController,
@@ -43,33 +45,26 @@ export class SchedulePage {
     public toastCtrl: ToastController,
     public confData: ConferenceData,
     public user: UserData,
+    public platform: Platform,
+    public actionSheetCtrl: ActionSheetController
   ) {}
 
   ionViewDidLoad() {
     this.app.setTitle('Schedule');
-    this.updateSchedule();
+    this.updateSchedule(true);
   }
 
-  updateSchedule() {
+  updateSchedule(refresh: boolean) {
     // Close any open sliding items when the schedule updates
     this.scheduleList && this.scheduleList.closeSlidingItems();
-    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment, refresh).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
       this.filters = data;
     });
   }
 
-  presentFilter() {
-    let modal = this.modalCtrl.create(ScheduleFilterPage, this.excludeTracks);
-    modal.present();
-
-    modal.onWillDismiss((data: any[]) => {
-      if (data) {
-        this.excludeTracks = data;
-        this.updateSchedule();
-      }
-    });
-
+  addFilter() {
+    this.goToSessionDetail(new Filter('','', 0,0,0,0,'',0,0,0,0,'',0,0,0,0,'',0,0,0,0,''));
   }
 
   goToSessionDetail(sessionData: any) {
@@ -77,6 +72,10 @@ export class SchedulePage {
     // and pass in the session data
 
     this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, description: sessionData.description });
+  }
+
+  deleteSession(sessionData: any){
+    this.presentActionSheet(sessionData);
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData: any) {
@@ -124,8 +123,7 @@ export class SchedulePage {
           handler: () => {
             // they want to remove this session from their favorites
             this.user.removeFavorite(sessionData.description);
-            this.updateSchedule();
-
+            this.updateSchedule(true);
             // close the sliding item and hide the option buttons
             slidingItem.close();
           }
@@ -148,14 +146,13 @@ export class SchedulePage {
   }
 
   doRefresh(refresher: Refresher) {
-    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+    this.confData.getTimeline(this.queryText, this.excludeTracks, this.segment, true).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
       this.filters = data;
       // simulate a network request that would take longer
       // than just pulling from out local json file
       setTimeout(() => {
         refresher.complete();
-
         const toast = this.toastCtrl.create({
           message: 'Sessions have been updated.',
           duration: 3000
@@ -163,5 +160,34 @@ export class SchedulePage {
         toast.present();
       }, 1000);
     });
+  }
+  presentActionSheet(session: any) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: '过滤条件',
+      buttons: [
+        {
+          text: '确定删除？',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            this.confData.deleteSession(session.id).subscribe(successCode => {
+                this.statusCode = successCode;
+                this.updateSchedule(true);
+            },
+            errorCode => this.statusCode = errorCode);  
+          }
+        },
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            this.updateSchedule(false);
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+ 
+    actionSheet.present();
   }
 }

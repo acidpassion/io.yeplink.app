@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { Http } from '@angular/http';
-
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { UserData } from './user-data';
-
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -12,12 +11,17 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class ConferenceData {
   data: any;
-  apiUrl = 'http://localhost:5000/api';
+  apiUrl = 'http://112.74.57.41:8000/api';
+  // apiUrl = 'http://localhost:5000/api';
+  headers: Headers;
+  options: RequestOptions;
+  constructor(public http: Http, public user: UserData) {
+    this.headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'q=0.8;application/json;q=0.9' });
+    this.options = new RequestOptions({ headers: this.headers });
+   }
 
-  constructor(public http: Http, public user: UserData) { }
-
-  load(): any {
-    if (this.data) {
+  load(refresh: boolean): any {
+    if (this.data&&!refresh) {
       return Observable.of(this.data);
     } else {
       return this.http.get(this.apiUrl + '/filters')
@@ -25,6 +29,20 @@ export class ConferenceData {
     }
   }
 
+  deleteSession(sessionId: string): any{
+    let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: cpHeaders });
+    return this.http.delete(this.apiUrl +"/filters/" + sessionId, options)
+      .map(success => success.status)
+      .catch(this.handleError);
+  }
+
+  handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
   processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
     // build up the data by linking speakers to sessions
@@ -32,8 +50,8 @@ export class ConferenceData {
     return this.data;
   }
 
-  getTimeline(queryText = '', excludeTracks: any[] = [], segment = 'all') {
-    return this.load().map((data: any) => {
+  getTimeline(queryText = '', excludeTracks: any[] = [], segment = 'all', refresh = false) {
+    return this.load(refresh).map((data: any) => {
       let day = data;
       console.log(data);
       day.shownSessions = 0;
@@ -93,7 +111,7 @@ export class ConferenceData {
   }
 
   getSpeakers() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.speakers.sort((a: any, b: any) => {
         let aName = a.name.split(' ').pop();
         let bName = b.name.split(' ').pop();
@@ -103,27 +121,39 @@ export class ConferenceData {
   }
 
   getTracks() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.tracks.sort();
     });
   }
 
   getMap() {
-    return this.load().map((data: any) => {
+    return this.load(false).map((data: any) => {
       return data.map;
     });
   }
 
   saveFilter(data) {
     console.log(data);
-    return new Promise((resolve, reject) => {
-      this.http.put(this.apiUrl + '/filters/' + data.id, data)
-        .subscribe(res => {
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
+    if(data.id==''){
+      return new Promise((resolve, reject) => {
+        this.http.post(this.apiUrl + '/filters/', data)
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+      });
+    }
+    else{
+      return new Promise((resolve, reject) => {
+        this.http.put(this.apiUrl + '/filters/' + data.id, data)
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+      });
+    }
   }
 
 }

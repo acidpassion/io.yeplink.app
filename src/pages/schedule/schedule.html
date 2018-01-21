@@ -4,18 +4,18 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
       <ion-segment-button value="favorites">
         Favorites
       </ion-segment-button>
-    </ion-segment>
+    </ion-segment> -->
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
-        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      <button ion-button icon-only (click)="addFilter()">
+        <ion-icon ios="ios-add-circle-outline" md="md-add-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -48,11 +48,11 @@
       </button>
 
       <ion-item-options>
-        <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
-          Favorite
+        <button ion-button color="secondary" (click)="goToSessionDetail(session)">
+          编 辑 
         </button>
-        <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
-          Remove
+        <button ion-button color="danger" (click)="deleteSession(session)">
+          删 除
         </button>
       </ion-item-options>
 
