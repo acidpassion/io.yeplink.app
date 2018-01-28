@@ -16,7 +16,6 @@ import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SchedulePage } from '../pages/schedule/schedule';
-import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs-page/tabs-page';
@@ -35,7 +34,6 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     PopoverPage,
     SchedulePage,
-    ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
     TabsPage,
@@ -50,7 +48,6 @@ import { UserData } from '../providers/user-data';
         { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:sessionId' },
-        { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
         { component: AboutPage, name: 'About', segment: 'about' },
         { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
@@ -69,7 +66,6 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     PopoverPage,
     SchedulePage,
-    ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
     TabsPage,

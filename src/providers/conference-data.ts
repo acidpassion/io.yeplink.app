@@ -11,6 +11,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class ConferenceData {
   data: any;
+  pankos: any;
   apiUrl = 'http://112.74.57.41:8000/api';
   // apiUrl = 'http://localhost:5000/api';
   headers: Headers;
@@ -29,6 +30,11 @@ export class ConferenceData {
     }
   }
 
+  getPankos(): any {
+    return this.http.get(this.apiUrl + '/pankos')
+    .map(this.processPanko, this);
+  }
+
   deleteSession(sessionId: string): any{
     let cpHeaders = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: cpHeaders });
@@ -42,6 +48,13 @@ export class ConferenceData {
         error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg);
     return Observable.throw(errMsg);
+  }
+
+  processPanko(data: any) {
+    // just some good 'ol JS fun with objects and arrays
+    // build up the data by linking speakers to sessions
+    this.pankos = data.json();
+    return this.pankos;
   }
   processData(data: any) {
     // just some good 'ol JS fun with objects and arrays
@@ -108,28 +121,6 @@ export class ConferenceData {
 
     // all tests must be true if it should not be hidden
     session.hide = !(matchesQueryText && matchesTracks && matchesSegment);
-  }
-
-  getSpeakers() {
-    return this.load(false).map((data: any) => {
-      return data.speakers.sort((a: any, b: any) => {
-        let aName = a.name.split(' ').pop();
-        let bName = b.name.split(' ').pop();
-        return aName.localeCompare(bName);
-      });
-    });
-  }
-
-  getTracks() {
-    return this.load(false).map((data: any) => {
-      return data.tracks.sort();
-    });
-  }
-
-  getMap() {
-    return this.load(false).map((data: any) => {
-      return data.map;
-    });
   }
 
   saveFilter(data) {
