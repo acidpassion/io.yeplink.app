@@ -28,23 +28,25 @@
                   <ion-item>
                       <ion-label>主最小</ion-label>
                       <ion-input type="number" placeholder="" [(ngModel)]="session.startHostFrom" name="startHostFrom" required="" ></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>主最大</ion-label>
+                    <ion-input type="number" placeholder="" [(ngModel)]="session.startHostTo" name="startHostTo" required="" ></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>盘口</ion-label>
+                    <ion-select [(ngModel)]="session.startPanko" name="startPanko">
+                      <ion-option *ngFor="let val of pankos">{{val.name}}</ion-option>
+                    </ion-select>
                     </ion-item>
-                    <ion-item>
-                      <ion-label>主最大</ion-label>
-                      <ion-input type="number" placeholder="" [(ngModel)]="session.startHostTo" name="startHostTo" required="" ></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>盘口</ion-label>
-                      <ion-input type="text" placeholder="" [(ngModel)]="session.startPanko" name="startPanko" required="" ></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>客最小</ion-label>
-                      <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestFrom" name="startGuestFrom" required="" ></ion-input>
-                    </ion-item>
-                    <ion-item>
-                      <ion-label>客最大</ion-label>
-                      <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestTo" name="startGuestFrom" required="" ></ion-input>
-                    </ion-item>
+                  <ion-item>
+                    <ion-label>客最小</ion-label>
+                    <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestFrom" name="startGuestFrom" required="" ></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>客最大</ion-label>
+                    <ion-input type="number" placeholder="" [(ngModel)]="session.startGuestTo" name="startGuestFrom" required="" ></ion-input>
+                  </ion-item>
               </ion-list>
           
               <ion-list *ngSwitchCase="'endPanko'">
@@ -58,7 +60,9 @@
                     </ion-item>
                     <ion-item>
                       <ion-label>盘口</ion-label>
-                      <ion-input type="text" placeholder="" [(ngModel)]="session.endPanko" name="endPanko" required="" ></ion-input>
+                      <ion-select [(ngModel)]="session.endPanko" name="endPanko">
+                        <ion-option *ngFor="let val of pankos">{{val.name}}</ion-option>
+                      </ion-select>
                     </ion-item>
                     <ion-item>
                       <ion-label>客最小</ion-label>
@@ -81,7 +85,9 @@
                     </ion-item>
                     <ion-item>
                       <ion-label>盘口</ion-label>
-                      <ion-input type="text" placeholder="" [(ngModel)]="session.nowPanko" name="nowPanko" required="" ></ion-input>
+                      <ion-select [(ngModel)]="session.nowPanko" name="nowPanko">
+                        <ion-option *ngFor="let val of pankos">{{val.name}}</ion-option>
+                      </ion-select>
                     </ion-item>
                     <ion-item>
                       <ion-label>客最小</ion-label>
@@ -103,7 +109,9 @@
                     </ion-item>
                     <ion-item>
                       <ion-label>盘口</ion-label>
-                      <ion-input type="text" placeholder="" [(ngModel)]="session.euroAsiaPanko" name="euroAsiaPanko" required="" ></ion-input>
+                      <ion-select [(ngModel)]="session.euroAsiaPanko" name="euroAsiaPanko">
+                          <ion-option *ngFor="let val of pankos">{{val.name}}</ion-option>
+                        </ion-select>
                     </ion-item>
                     <ion-item>
                       <ion-label>客最小</ion-label>

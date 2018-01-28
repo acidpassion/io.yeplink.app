@@ -11,13 +11,16 @@ import { SchedulePage } from '../schedule/schedule';
 })
 export class SessionDetailPage {
   session: any;
+  pankos:any;
   defaultTab: string = "startPanko";
   constructor(
     public dataProvider: ConferenceData,
     public navParams: NavParams,
     public toastCtrl: ToastController,
     public navCtrl: NavController
-  ) {}
+  ) 
+  {
+  }
 
   saveFilter() {
     this.dataProvider.saveFilter(this.session).then((result) => {
@@ -42,6 +45,15 @@ export class SessionDetailPage {
   }
 
   ionViewWillEnter() {
+    this.dataProvider.getPankos().subscribe((pankos: any) => {
+      console.log(pankos);
+      if (
+        pankos
+      ) {
+        this.pankos = pankos;
+      }
+    });
+
     this.dataProvider.load(false).subscribe((data: any) => {
       console.log(data);
       if (
