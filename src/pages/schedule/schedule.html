@@ -38,7 +38,7 @@
 
     <ion-item-sliding *ngFor="let session of filters" #slidingItem [hidden]="session.hide">
 
-      <button ion-item (click)="goToSessionDetail(session)">
+      <button ion-item (click)="goToGameDetail(session)">
         <h3>{{session.description}}</h3>
         <p>
           {{session.startHostFrom}} &mdash;

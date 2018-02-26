@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title *ngIf="session">{{description}}</ion-title>
+    </ion-navbar>
+</ion-header>
+  
+<ion-content>
+    <!-- <ion-refresher on-refresh="refresh()" pulling-text="拉我刷新......" refreshing-text="数据读取中......"
+                   refreshing-icon="ion-loading-c">
+    </ion-refresher> -->
+      <!--<li class="item item-divider">{{game._id}}</li>-->
+      <table class="tg" *ngFor="let game of games">
+        <tr>
+          <th class="tg-jrnw" colspan="5">{{game._id}}</th>
+        </tr>
+        <tr>
+          <td  width="20%" class="tg-wa0w" style="color: #36c;text-align: center;" height="20">公司</td>
+          <td  class="tg-wa0w"></td>
+          <td  class="tg-wa0w">主</td>
+          <td  class="tg-wa0w">盘口</td>
+          <td  class="tg-wa0w">客</td>
+        </tr>
+        <tbody *ngFor="let item of game.details">
+          <tr>
+            <td width="20%" class="tg-u9vp" rowspan="4" style="color: #36c; text-align: center;">{{item.company}}</td>
+            <td class="tg-baqh">初盘</td>
+            <td class="tg-baqh">{{item.startHost}}</td>
+            <td class="tg-baqh">{{item.startPanko}}</td>
+            <td class="tg-baqh">{{item.startGuest}}</td>
+          </tr>
+          <tr>
+            <td class="tg-baqh">终盘</td>
+            <td class="tg-baqh">{{item.endHost}}</td>
+            <td class="tg-baqh">{{item.endPanko}}</td>
+            <td class="tg-baqh">{{item.endGuest}}</td>
+          </tr>
+          <tr>
+            <td class="tg-baqh">即时</td>
+            <td class="tg-baqh">{{item.nowHost}}</td>
+            <td class="tg-baqh">{{item.nowPanko}}</td>
+            <td class="tg-baqh">{{item.nowGuest}}</td>
+          </tr>
+          <tr>
+            <td class="tg-baqh">欧亚</td>
+            <td class="tg-baqh">{{item.euroAsiaHost}}</td>
+            <td class="tg-baqh">{{item.euroAsiaPanko}}</td>
+            <td class="tg-baqh">{{item.euroAsiaGuest}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+</ion-content>
