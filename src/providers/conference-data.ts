@@ -13,12 +13,14 @@ export class ConferenceData {
   data: any;
   pankos: any;
   apiUrl = 'http://112.74.57.41:8000/api';
+  pythonApiUrl = 'http://112.74.57.41:8001/';
   // apiUrl = 'http://localhost:5000/api';
   headers: Headers;
   options: RequestOptions;
   constructor(public http: Http, public user: UserData) {
     this.headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'q=0.8;application/json;q=0.9' });
     this.options = new RequestOptions({ headers: this.headers });
+    
    }
 
   load(refresh: boolean): any {
@@ -33,6 +35,16 @@ export class ConferenceData {
   getPankos(): any {
     return this.http.get(this.apiUrl + '/pankos')
     .map(this.processPanko, this);
+  }
+
+  getGameDetails(): any {
+    return this.http.get(this.pythonApiUrl + 'games')
+      .map(response => response.json());
+  }
+
+  getGamesByFilterId(filterId:string): any {
+    return this.http.get(this.pythonApiUrl + 'games/' + filterId)
+      .map(response => response.json());
   }
 
   deleteSession(sessionId: string): any{
@@ -62,6 +74,8 @@ export class ConferenceData {
     this.data = data.json();
     return this.data;
   }
+
+  
 
   getTimeline(queryText = '', excludeTracks: any[] = [], segment = 'all', refresh = false) {
     return this.load(refresh).map((data: any) => {

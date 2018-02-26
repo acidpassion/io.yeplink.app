@@ -17,11 +17,11 @@ import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
+import { GameDetailPage } from '../pages/games/game';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs-page/tabs-page';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
-
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
@@ -35,6 +35,7 @@ import { UserData } from '../providers/user-data';
     PopoverPage,
     SchedulePage,
     SessionDetailPage,
+    GameDetailPage,
     SignupPage,
     TabsPage,
     TutorialPage,
@@ -48,6 +49,7 @@ import { UserData } from '../providers/user-data';
         { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:sessionId' },
+        { component: GameDetailPage, name: 'GameDetail', segment: 'gameDetail/:sessionId' },
         { component: AboutPage, name: 'About', segment: 'about' },
         { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
@@ -67,6 +69,7 @@ import { UserData } from '../providers/user-data';
     PopoverPage,
     SchedulePage,
     SessionDetailPage,
+    GameDetailPage,
     SignupPage,
     TabsPage,
     TutorialPage,

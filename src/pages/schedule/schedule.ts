@@ -13,6 +13,7 @@ import { UserData } from '../../providers/user-data';
 import {Filter} from '../../providers/filter';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
+import { GameDetailPage } from '../games/game';
 
 @Component({
   selector: 'page-schedule',
@@ -70,6 +71,13 @@ export class SchedulePage {
     // and pass in the session data
 
     this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, description: sessionData.description });
+  }
+
+  goToGameDetail(sessionData: any) {
+    // go to the session detail page
+    // and pass in the session data
+
+    this.navCtrl.push(GameDetailPage, { sessionId: sessionData.id, description: sessionData.description });
   }
 
   deleteSession(sessionData: any){
