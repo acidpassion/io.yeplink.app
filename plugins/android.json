@@ -13,29 +13,40 @@
       "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
       "XWALK_MODE": "embedded",
       "XWALK_MULTIPLEAPK": "true",
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
+      "PACKAGE_NAME": "io.yeplink.app"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
+      "PACKAGE_NAME": "io.yeplink.app"
     },
     "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
-    },
-    "cordova-plugin-ionic-webview": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
+      "PACKAGE_NAME": "io.yeplink.app"
     },
     "cordova-plugin-ionic-keyboard": {
-      "PACKAGE_NAME": "io.ionic.conferenceapp"
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    },
+    "cordova-android-support-gradle-release": {
+      "ANDROID_SUPPORT_VERSION": "26.+",
+      "PACKAGE_NAME": "io.yeplink.app"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "io.yeplink.app"
+    }
+  }
 }

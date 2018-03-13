@@ -30,7 +30,7 @@ export class SessionDetailPage {
     }, (err) => {
       console.log(err);
       this.showToast('bottom', 'error', '保存失败');
-    });
+    }); 
   }
 
   showToast(position: string, type:string, msg:string) {
