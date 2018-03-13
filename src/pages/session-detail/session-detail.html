@@ -10,9 +10,9 @@
         <ion-segment-button value="nowPanko">
           即时盘
         </ion-segment-button>
-        <ion-segment-button value="endPanko">
+        <!-- <ion-segment-button value="endPanko">
           终 盘
-        </ion-segment-button>
+        </ion-segment-button> -->
         <ion-segment-button value="euroAsiaPanko">
           欧亚转换 
         </ion-segment-button>
@@ -49,7 +49,7 @@
                   </ion-item>
               </ion-list>
           
-              <ion-list *ngSwitchCase="'endPanko'">
+              <!-- <ion-list *ngSwitchCase="'endPanko'">
                   <ion-item>
                       <ion-label>主最小</ion-label>
                       <ion-input type="number" placeholder="" [(ngModel)]="session.endHostFrom" name="endHostFrom" required="" ></ion-input>
@@ -72,7 +72,7 @@
                       <ion-label>客最大</ion-label>
                       <ion-input type="number" placeholder="" [(ngModel)]="session.endGuestTo" name="endGuestTo" required="" ></ion-input>
                     </ion-item>
-              </ion-list>
+              </ion-list> -->
           
               <ion-list *ngSwitchCase="'nowPanko'">
                   <ion-item>
